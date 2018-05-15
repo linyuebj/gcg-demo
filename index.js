@@ -23,6 +23,9 @@ var CONNECTIONS_HOTNAME = "https://apps.ap.collabserv.com";
 var CONNECTIONS_USER = "linyue@linyuebj.ibmcollab.com";
 var CONNECTIONS_PASSWORD = "ibmcloud2018";
 
+const SDK = require('watsonworkspace-sdk');
+//const ww = new SDK(APP_ID, APP_SECRET);
+
 // --------------------------------------------------------------------------
 // Setup global variables
 // --------------------------------------------------------------------------
@@ -438,12 +441,17 @@ function handleCalbackRequest(req, res){
 //		if (req.body.content.substring(0, 12) === "你好") {
 			getJWTToken(APP_ID, APP_SECRET, function(jwt) {
 				console.log("JWT Token :", jwt);
-				var msg = "您好，很高兴问您服务，请问有什么我可以帮到你吗？";
-//				ww.sendMessage(spaceId, 'Hello from Watson Workspace SDK');
+				var msg = "您好，很高兴为您服务，请问有什么我可以帮到你吗？";
+	
 				// And post it back
 				postMessageToSpace(spaceId, jwt, msg, function(success) {
 					return;
-				})					
+				})
+	
+				const ww = new SDK('', '', jwt);
+//				ww.sendMessage(spaceId, 'Hello from Watson Workspace SDK');
+				ww.sendFile(spaceId, '/home/vcap/app/public/images/hi.gif', 100, 100);					
+				
 			})
 		}
 		
